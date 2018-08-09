@@ -1,7 +1,8 @@
 /*
  * Create a list that holds all of your cards
  */
-
+let myCardsList = document.getElementsByClassName('card');/*returns HTLM list*/
+var cardsToShuffle= Array.from(myCardsList);/*converts HTML list into an array*/
 
 /*
  * Display the cards on the page
@@ -11,6 +12,7 @@
  */
 
 // Shuffle function from http://stackoverflow.com/a/2450976
+
 function shuffle(array) {
     var currentIndex = array.length, temporaryValue, randomIndex;
 
@@ -25,6 +27,18 @@ function shuffle(array) {
     return array;
 }
 
+//Shuffel cards
+
+function shuffleDeck(){
+    let shuffledCards = shuffle(cardsToShuffle);/*creates an array of shuffled cards*/
+    for (let i=0;i<shuffledCards.length;i++){
+      let card = shuffledCards[i];
+      let deck = document.querySelector('.deck');
+      deck.appendChild(card);/*lops over the shuffled array and adds each card to the deck*/
+    }
+}
+
+shuffleDeck();/*this function will be run everytime page is loaded*/
 
 /*
  * set up the event listener for a card. If a card is clicked:
@@ -36,3 +50,12 @@ function shuffle(array) {
  *    + increment the move counter and display it on the page (put this functionality in another function that you call from this one)
  *    + if all cards have matched, display a message with the final score (put this functionality in another function that you call from this one)
  */
+
+const cards = document.querySelectorAll('.card:not(.match)');
+
+for (let i=0;i<cards.length;i++){
+        let clickedCard = cards[i];
+         clickedCard.addEventListener ('click', function(){
+           clickedCard.setAttribute('class','card open show');
+         })
+ }
