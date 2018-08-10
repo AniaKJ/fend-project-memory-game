@@ -51,11 +51,36 @@ shuffleDeck();/*this function will be run everytime page is loaded*/
  *    + if all cards have matched, display a message with the final score (put this functionality in another function that you call from this one)
  */
 
-const cards = document.querySelectorAll('.card:not(.match)');
+const cardsNotMatched = document.querySelectorAll('.card:not(.match)');
+let openCard;
+let openCards = [];
 
-for (let i=0;i<cards.length;i++){
-        let clickedCard = cards[i];
-         clickedCard.addEventListener ('click', function(){
-           clickedCard.setAttribute('class','card open show');
-         })
+for (let i=0;i<cardsNotMatched.length;i++){
+        let notMatchedCard = cardsNotMatched[i];
+        notMatchedCard.addEventListener ('click', function(){
+            notMatchedCard.setAttribute('class','card open show');
+            openCard = notMatchedCard;
+            openCards.push(openCard);
+            checkMatch();
+            }
+        )
  }
+
+function checkMatch(){
+    setTimeout(function(){
+
+      if (openCards.length===2){
+          if(openCards[0].firstElementChild.className===openCards[1].firstElementChild.className){
+            openCards[0].setAttribute('class','card match');
+            openCards[1].setAttribute('class','card match');
+            openCards=[];
+          } else {
+            openCards[0].setAttribute('class','card');
+            openCards[1].setAttribute('class','card');
+            openCards=[];
+          }
+      }
+
+    }, 1000);
+
+}
