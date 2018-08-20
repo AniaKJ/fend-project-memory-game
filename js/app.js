@@ -84,3 +84,15 @@ function checkMatch(){
     }, 1000);
 
 }
+
+//Counts moves
+
+let clickCounter=0;
+
+//adds event listener to every card so that each card click can be counted and updates the number of the moves
+  let oneCard = cardsToShuffle[i];
+  oneCard.addEventListener('click',function(){
+    clickCounter=clickCounter+1;
+    document.querySelector('.moves').textContent=clickCounter;
+  })
+}
