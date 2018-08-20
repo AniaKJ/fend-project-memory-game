@@ -85,14 +85,19 @@ function checkMatch(){
 
 }
 
-//Counts moves
+//Counts moves & updates the number on the screen & updates the stars rating
 
 let clickCounter=0;
-
-//adds event listener to every card so that each card click can be counted and updates the number of the moves
+for (let i=0;i<cardsToShuffle.length;i++){
   let oneCard = cardsToShuffle[i];
   oneCard.addEventListener('click',function(){
     clickCounter=clickCounter+1;
-    document.querySelector('.moves').textContent=clickCounter;
+    document.querySelector('.moves').textContent=clickCounter;//updates number of moves on the screen
+    if (clickCounter===8||clickCounter===16){//removes stars from the rating when 8 moves and 16 moves made
+      let stars = document.querySelector('.stars');
+      let star=stars.firstElementChild;
+      stars.removeChild(star);
+    };
+
   })
 }
