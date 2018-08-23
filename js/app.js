@@ -78,6 +78,11 @@ function checkMatch(){
 
 //Counts moves & updates the number on the screen & updates the stars rating
 
+let stars=document.querySelector('.stars');
+
+let starsOriginal=stars.cloneNode(true);//copies to three star rating for reset function
+let starsParent=document.querySelector('.score-panel');
+
 let clickCounter=0;
 for (let i=0;i<cardsToShuffle.length;i++){
   let oneCard = cardsToShuffle[i];
@@ -85,7 +90,7 @@ for (let i=0;i<cardsToShuffle.length;i++){
     clickCounter=clickCounter+1;
     document.querySelector('.moves').textContent=clickCounter;//updates number of moves on the screen
     if (clickCounter===8||clickCounter===16){//removes stars from the rating when 8 moves and 16 moves made
-      let stars = document.querySelector('.stars');
+      // let stars = document.querySelector('.stars');
       let star=stars.firstElementChild;
       stars.removeChild(star);
     };
@@ -127,10 +132,14 @@ function startTimer(){
 }
 
 //click of each card will start the timer
-for (let i=0;i<cardsToShuffle.length;i++){
-  let card = cardsToShuffle[i];
-  card.addEventListener('click',startTimer);
-}
+function addsStartTimerListener(){
+  for (let i=0;i<cardsToShuffle.length;i++){
+    let card = cardsToShuffle[i];
+    card.addEventListener('click',startTimer);
+  }
+};
+
+addsStartTimerListener();//this will add event listeners (to start the timer) evety time the page is loaded
 
 //removes the event listeners that start the timer from the cards
 function removesStartTimerListener (){
@@ -140,18 +149,29 @@ function removesStartTimerListener (){
       }
 }
 
+//stops the timer
 function timerStop(){
   clearInterval(startClock);
 };
 
+//zeroes the clock
 function timerReset(){
   document.querySelector('.clock').innerHTML = "00:00:00";
 };
 
-//Repeat button
+// Repeat button
 document.querySelector('.fa-repeat').addEventListener('click',function(){
   for(let i=0;i<cardsToShuffle.length;i++){
     cardsToShuffle[i].setAttribute('class','card');
   };//hides cards
   shuffleDeck();//shuffles cards
+
+  timerStop();//stops timer
+  timerReset();//zeros the clock
+  addsStartTimerListener();//adds the event listeners back that were removed after the first card click
+
+  clickCounter = 0;
+  document.querySelector('.moves').textContent=clickCounter;//zeroes the number of moves
+
+  starsParent.replaceChild(starsOriginal,stars);//resets star rating
 });
