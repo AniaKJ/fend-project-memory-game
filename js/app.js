@@ -78,21 +78,24 @@ function checkMatch(){
 
 //Counts moves & updates the number on the screen & updates the stars rating
 
-let stars=document.querySelector('.stars');
-
-let starsOriginal=stars.cloneNode(true);//copies to three star rating for reset function
-let starsParent=document.querySelector('.score-panel');
+let starsOriginal=document.querySelector('.stars');//original three start rating
+let starsOrigCopy=starsOriginal.cloneNode(true);//copies to three star rating for reset function
+let starsNow;
+let starsParent;
 
 let clickCounter=0;
 for (let i=0;i<cardsToShuffle.length;i++){
   let oneCard = cardsToShuffle[i];
   oneCard.addEventListener('click',function(){
+
     clickCounter=clickCounter+1;
     document.querySelector('.moves').textContent=clickCounter;//updates number of moves on the screen
+
     if (clickCounter===8||clickCounter===16){//removes stars from the rating when 8 moves and 16 moves made
-      // let stars = document.querySelector('.stars');
-      let star=stars.firstElementChild;
-      stars.removeChild(star);
+      starsNow = document.querySelector('.stars');
+      starsParent=starsNow.parentNode;
+      let star=starsNow.firstElementChild;
+      starsNow.removeChild(star);
     };
 
   })
@@ -173,5 +176,5 @@ document.querySelector('.fa-repeat').addEventListener('click',function(){
   clickCounter = 0;
   document.querySelector('.moves').textContent=clickCounter;//zeroes the number of moves
 
-  starsParent.replaceChild(starsOriginal,stars);//resets star rating
+  starsParent.replaceChild(starsOrigCopy,starsNow);//resets star rating
 });
