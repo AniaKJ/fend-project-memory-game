@@ -1,15 +1,6 @@
-/*
- * Create a list that holds all of your cards
- */
+//List that holds all cards
 let myCardsList = document.getElementsByClassName('card');/*returns HTLM list*/
 var cardsToShuffle= Array.from(myCardsList);/*converts HTML list into an array*/
-
-/*
- * Display the cards on the page
- *   - shuffle the list of cards using the provided "shuffle" method below
- *   - loop through each card and create its HTML
- *   - add each card's HTML to the page
- */
 
 // Shuffle function from http://stackoverflow.com/a/2450976
 
@@ -27,7 +18,7 @@ function shuffle(array) {
     return array;
 }
 
-//Shuffel cards
+//shuffles cards
 
 function shuffleDeck(){
     let shuffledCards = shuffle(cardsToShuffle);/*creates an array of shuffled cards*/
@@ -101,3 +92,66 @@ for (let i=0;i<cardsToShuffle.length;i++){
 
   })
 }
+
+//Timer
+
+var startTime =0;
+
+function takesStartTime(){
+startTime = new Date().getTime();//takes the initial time
+};
+
+function takesDurationTime(){
+  var elapsedTime = new Date().getTime() - startTime;//takes the current time-initial times --> milliseconds that passedd since the start
+  var totalSeconds = Math.floor(elapsedTime / 1000);//converts from milliseconds to seconds
+  var hours = Math.floor(totalSeconds/3600);
+  totalSeconds = totalSeconds %3600;
+  var minutes =Math.floor(totalSeconds/60);
+  totalSeconds = totalSeconds %60;
+  if(hours<10){hours='0'+hours};
+  if(minutes<10){minutes='0'+minutes};
+  if(totalSeconds<10){totalSeconds='0'+totalSeconds};
+  var time=hours+':'+minutes+':'+totalSeconds;
+  document.querySelector('.clock').innerHTML = time;
+};
+
+//starts the timer
+
+var startClock;
+
+function startTimer(){
+  takesStartTime();
+  takesDurationTime();
+  startClock= setInterval(takesDurationTime, 100);
+  removesStartTimerListener();
+}
+
+//click of each card will start the timer
+for (let i=0;i<cardsToShuffle.length;i++){
+  let card = cardsToShuffle[i];
+  card.addEventListener('click',startTimer);
+}
+
+//removes the event listeners that start the timer from the cards
+function removesStartTimerListener (){
+  for (let j=0;j<cardsToShuffle.length;j++){
+        let cardx = cardsToShuffle[j];
+        cardx.removeEventListener('click', startTimer);
+      }
+}
+
+function timerStop(){
+  clearInterval(startClock);
+};
+
+function timerReset(){
+  document.querySelector('.clock').innerHTML = "00:00:00";
+};
+
+//Repeat button
+document.querySelector('.fa-repeat').addEventListener('click',function(){
+  for(let i=0;i<cardsToShuffle.length;i++){
+    cardsToShuffle[i].setAttribute('class','card');
+  };//hides cards
+  shuffleDeck();//shuffles cards
+});
