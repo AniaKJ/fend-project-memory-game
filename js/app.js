@@ -2,6 +2,10 @@
 let myCardsList = document.getElementsByClassName('card');/*returns HTLM list*/
 var cardsToShuffle= Array.from(myCardsList);/*converts HTML list into an array*/
 
+// for(i=0;i<16;i++){//clears the style (shaking) that was applied when cards where matched in previous games
+//   cardsToShuffle[i].setAttribute('style','animation: none; animation-iteration-count: 0;');
+// }
+
 // Shuffle function from http://stackoverflow.com/a/2450976
 
 function shuffle(array) {
@@ -67,7 +71,9 @@ function checkMatch(){
       if (openCards.length===2){
           if(openCards[0].firstElementChild.className===openCards[1].firstElementChild.className){
             openCards[0].setAttribute('class','card match');
+            openCards[0].setAttribute('style','animation: shake 0.5s; animation-iteration-count: 1;');
             openCards[1].setAttribute('class','card match');
+            openCards[1].setAttribute('style','animation: shake 0.5s; animation-iteration-count: 1;');
             openCards=[];
             cardsNotMatched = document.querySelectorAll('.card:not(.match)');//updates the list of not matched cards
             if(cardsNotMatched.length===0){//displays alert when all cards matched
@@ -211,6 +217,11 @@ function resetFunction(){
   for(let i=0;i<cardsToShuffle.length;i++){
     cardsToShuffle[i].setAttribute('class','card');
   };//hides cards
+
+  for(i=0;i<16;i++){//clears the style (shaking) that was applied when cards where matched in this game
+    cardsToShuffle[i].setAttribute('style','animation: none; animation-iteration-count: 0;');
+  }
+
   shuffleDeck();//shuffles cards
 
   timerStop();//stops timer
