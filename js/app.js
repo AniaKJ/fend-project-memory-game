@@ -42,7 +42,7 @@ shuffleDeck();/*this function will be run everytime page is loaded*/
  *    + if all cards have matched, display a message with the final score (put this functionality in another function that you call from this one)
  */
 
-const cardsNotMatched = document.querySelectorAll('.card:not(.match)');
+let cardsNotMatched = document.querySelectorAll('.card:not(.match)');
 let openCard;
 let openCards = [];
 
@@ -57,6 +57,10 @@ for (let i=0;i<cardsNotMatched.length;i++){
         )
  }
 
+/* Function checking if two cards match, for true:
+ * changed background of the card & updates the list of unmatched cards,
+ * for false: closes the cards
+ */
 function checkMatch(){
     setTimeout(function(){
 
@@ -65,6 +69,10 @@ function checkMatch(){
             openCards[0].setAttribute('class','card match');
             openCards[1].setAttribute('class','card match');
             openCards=[];
+            cardsNotMatched = document.querySelectorAll('.card:not(.match)');//updates the list of not matched cards
+            if(cardsNotMatched.length===0){//displays alert when all cards matched
+              displayWinnerMessage();
+            };
           } else {
             openCards[0].setAttribute('class','card');
             openCards[1].setAttribute('class','card');
@@ -73,15 +81,37 @@ function checkMatch(){
       }
 
     }, 1000);
+}
 
+// Displays modal when comleted
+function displayWinnerMessage (){
+  timerStop();
+  // alert('well done');
+  var modal=document.querySelector('.modal');
+  modal.style.display='block';
+  var modalOverlay =document.querySelector('.modal-overlay');
+  modalOverlay.style.display='block';
+
+  document.querySelector('#final-time').appendChild(document.querySelector('.clock').cloneNode(true));
+  document.querySelector('#final-moves').appendChild(document.querySelector('.moves').cloneNode(true));
+  document.querySelector('#final-score').appendChild(document.querySelector('.stars').cloneNode(true));
+}
+
+//Play again button on modal
+document.querySelector('#play-again').addEventListener('click',playAgain);
+
+//Starts new game when 'play again button clicked'
+function playAgain(){
+  resetFunction();
+  var modal=document.querySelector('.modal');
+  modal.style.display='none';
+  var modalOverlay =document.querySelector('.modal-overlay');
+  modalOverlay.style.display='none';
 }
 
 //Counts moves & updates the number on the screen & updates the stars rating
 
-let starsOriginal=document.querySelector('.stars');//original three start rating
-let starsOrigCopy=starsOriginal.cloneNode(true);//copies to three star rating for reset function
-let starsNow;
-let starsParent;
+let stars= document.querySelector('.stars');
 
 let clickCounter=0;
 for (let i=0;i<cardsToShuffle.length;i++){
@@ -92,10 +122,10 @@ for (let i=0;i<cardsToShuffle.length;i++){
     document.querySelector('.moves').textContent=clickCounter;//updates number of moves on the screen
 
     if (clickCounter===8||clickCounter===16){//removes stars from the rating when 8 moves and 16 moves made
-      starsNow = document.querySelector('.stars');
-      starsParent=starsNow.parentNode;
-      let star=starsNow.firstElementChild;
-      starsNow.removeChild(star);
+      // starsNow = document.querySelector('.stars');
+      // starsParent=starsNow.parentNode;
+      let star=stars.firstElementChild;
+      stars.removeChild(star);
     };
 
   })
@@ -163,7 +193,34 @@ function timerReset(){
 };
 
 // Repeat button
-document.querySelector('.fa-repeat').addEventListener('click',function(){
+// document.querySelector('.fa-repeat').addEventListener('click',function(){
+//   for(let i=0;i<cardsToShuffle.length;i++){
+//     cardsToShuffle[i].setAttribute('class','card');
+//   };//hides cards
+//   shuffleDeck();//shuffles cards
+//
+//   timerStop();//stops timer
+//   timerReset();//zeros the clock
+//   addsStartTimerListener();//adds the event listeners back that were removed after the first card click
+//
+//   clickCounter = 0;
+//   document.querySelector('.moves').textContent=clickCounter;//zeroes the number of moves
+//
+//   //resets star rating
+//   while (stars.firstChild) {//deletes existing stars
+//     stars.removeChild(stars.firstChild);
+//   }
+//   for (i=1;i<4;i++){//tree times creates new star and adds it to <ul class='stars'>
+//     var starContainer=document.createElement('li');
+//     const starNew=document.createElement('i');
+//     starNew.className='fa fa-star';
+//     starContainer.appendChild(starNew);
+//     stars.appendChild(starContainer);
+//   }
+// });
+
+//Resets everything
+function resetFunction(){
   for(let i=0;i<cardsToShuffle.length;i++){
     cardsToShuffle[i].setAttribute('class','card');
   };//hides cards
@@ -176,5 +233,18 @@ document.querySelector('.fa-repeat').addEventListener('click',function(){
   clickCounter = 0;
   document.querySelector('.moves').textContent=clickCounter;//zeroes the number of moves
 
-  starsParent.replaceChild(starsOrigCopy,starsNow);//resets star rating
-});
+  //resets star rating
+  while (stars.firstChild) {//deletes existing stars
+    stars.removeChild(stars.firstChild);
+  }
+  for (i=1;i<4;i++){//tree times creates new star and adds it to <ul class='stars'>
+    var starContainer=document.createElement('li');
+    const starNew=document.createElement('i');
+    starNew.className='fa fa-star';
+    starContainer.appendChild(starNew);
+    stars.appendChild(starContainer);
+  }
+};
+
+//Repeat button
+document.querySelector('.fa-repeat').addEventListener('click', resetFunction);
