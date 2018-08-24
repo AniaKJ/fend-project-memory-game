@@ -86,8 +86,7 @@ function checkMatch(){
 // Displays modal when comleted
 function displayWinnerMessage (){
   timerStop();
-  // alert('well done');
-  var modal=document.querySelector('.modal');
+  var modal=document.querySelector('.modal-success');
   modal.style.display='block';
   var modalOverlay =document.querySelector('.modal-overlay');
   modalOverlay.style.display='block';
@@ -98,12 +97,15 @@ function displayWinnerMessage (){
 }
 
 //Play again button on modal
-document.querySelector('#play-again').addEventListener('click',playAgain);
+document.querySelector('.play-again1').addEventListener('click',playAgain);
+document.querySelector('.play-again2').addEventListener('click',playAgain);
 
 //Starts new game when 'play again button clicked'
 function playAgain(){
   resetFunction();
-  var modal=document.querySelector('.modal');
+  var modal=document.querySelector('.modal-success');
+  modal.style.display='none';
+  var modal=document.querySelector('.modal-failure');
   modal.style.display='none';
   var modalOverlay =document.querySelector('.modal-overlay');
   modalOverlay.style.display='none';
@@ -128,7 +130,19 @@ for (let i=0;i<cardsToShuffle.length;i++){
       stars.removeChild(star);
     };
 
+    if (clickCounter===35){//game is over if 35 moves reached
+      gameOverMessage();
+    };
   })
+}
+
+//game over function
+function gameOverMessage(){
+    timerStop();
+    var modal=document.querySelector('.modal-failure');
+    modal.style.display='block';
+    var modalOverlay =document.querySelector('.modal-overlay');
+    modalOverlay.style.display='block';
 }
 
 //Timer
@@ -191,33 +205,6 @@ function timerStop(){
 function timerReset(){
   document.querySelector('.clock').innerHTML = "00:00:00";
 };
-
-// Repeat button
-// document.querySelector('.fa-repeat').addEventListener('click',function(){
-//   for(let i=0;i<cardsToShuffle.length;i++){
-//     cardsToShuffle[i].setAttribute('class','card');
-//   };//hides cards
-//   shuffleDeck();//shuffles cards
-//
-//   timerStop();//stops timer
-//   timerReset();//zeros the clock
-//   addsStartTimerListener();//adds the event listeners back that were removed after the first card click
-//
-//   clickCounter = 0;
-//   document.querySelector('.moves').textContent=clickCounter;//zeroes the number of moves
-//
-//   //resets star rating
-//   while (stars.firstChild) {//deletes existing stars
-//     stars.removeChild(stars.firstChild);
-//   }
-//   for (i=1;i<4;i++){//tree times creates new star and adds it to <ul class='stars'>
-//     var starContainer=document.createElement('li');
-//     const starNew=document.createElement('i');
-//     starNew.className='fa fa-star';
-//     starContainer.appendChild(starNew);
-//     stars.appendChild(starContainer);
-//   }
-// });
 
 //Resets everything
 function resetFunction(){

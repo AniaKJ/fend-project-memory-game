@@ -111,7 +111,23 @@ h1 {
     cursor: pointer;
 }
 
-.modal {
+.modal-success {
+  width:70%;
+  z-index:3;
+  background: #02b3e4;
+  position:fixed;
+  top:25%;
+  left:15%;
+  display:none;
+  /* display:block; */
+  padding:5%;
+  text-align: center;
+  border-radius: 10px;
+  box-shadow: 12px 15px 20px 0 rgba(46, 61, 73, 0.5);
+  line-height: 1.9;
+}
+
+.modal-failure {
   width:70%;
   z-index:3;
   background: #02b3e4;
@@ -142,12 +158,12 @@ h1 {
   padding: 0;
 }
 
-#final-message1{
+.final-message1{
   font-size: 20px;
   font-weight: bold;
 }
 
-#play-again{
+.play-again1, .play-again2 {
   background: #2e3d49;
   border: none;
   padding:5px;

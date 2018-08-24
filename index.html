@@ -82,14 +82,21 @@
             </li>
         </ul>
     </div>
-    <div class='modal'>
-      <div id='final-message1'>Congratulations!!!</div>
-      <div id='final-meassage2'>You have successfully matched all cards!</div>
+    <div class='modal-success'>
+      <div class='final-message1'>Congratulations!!!</div>
+      <div class='final-meassage2'>You have successfully matched all cards!</div>
       <div id='final-time'>Your completion time is: </div>
       <div id='final-moves'>Your number of moves: </div>
       <div id='final-score'>Your rating is: </div>
-      <button id='play-again'>Play again?</button>
+      <button class='play-again1'>Play again?</button>
     </div>
+
+    <div class='modal-failure'>
+      <div class='final-message1'>GAME OVER!!!</div>
+      <div class='final-message2'>You reached the number of 35 moves.</div>
+      <button class='play-again2'>Play again?</button>
+    </div>
+
     <div class='modal-overlay'></div>
 
     <script src="js/app.js"></script>
