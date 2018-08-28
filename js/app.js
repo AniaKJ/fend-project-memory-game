@@ -29,7 +29,7 @@ function shuffleDeck(){
     for (let i=0;i<shuffledCards.length;i++){
       let card = shuffledCards[i];
       let deck = document.querySelector('.deck');
-      deck.appendChild(card);/*lops over the shuffled array and adds each card to the deck*/
+      deck.appendChild(card);/*loops over the shuffled array and adds each card to the deck*/
     }
 }
 
@@ -53,10 +53,12 @@ let openCards = [];
 for (let i=0;i<cardsNotMatched.length;i++){
         let notMatchedCard = cardsNotMatched[i];
         notMatchedCard.addEventListener ('click', function(){
+            notMatchedCard.setAttribute('style','pointer-events:none');//prevents from clicking the same card multiple times
             notMatchedCard.setAttribute('class','card open show');
             openCard = notMatchedCard;
             openCards.push(openCard);
             checkMatch();
+            // unblock();
             }
         )
  }
@@ -66,28 +68,47 @@ for (let i=0;i<cardsNotMatched.length;i++){
  * for false: closes the cards
  */
 function checkMatch(){
-    setTimeout(function(){
+          if (openCards.length===2){
 
-      if (openCards.length===2){
-          if(openCards[0].firstElementChild.className===openCards[1].firstElementChild.className){
-            openCards[0].setAttribute('class','card match');
-            openCards[0].setAttribute('style','animation: shake 0.5s; animation-iteration-count: 1;');
-            openCards[1].setAttribute('class','card match');
-            openCards[1].setAttribute('style','animation: shake 0.5s; animation-iteration-count: 1;');
-            openCards=[];
-            cardsNotMatched = document.querySelectorAll('.card:not(.match)');//updates the list of not matched cards
-            if(cardsNotMatched.length===0){//displays alert when all cards matched
-              displayWinnerMessage();
-            };
-          } else {
-            openCards[0].setAttribute('class','card');
-            openCards[1].setAttribute('class','card');
-            openCards=[];
+              cardsToShuffle.forEach(function(item){
+              item.setAttribute('style','pointer-events:none');
+              });
+
+              setTimeout(function(){
+                  if(openCards[0].firstElementChild.className===openCards[1].firstElementChild.className){
+                    openCards[0].setAttribute('class','card match');
+                    openCards[0].setAttribute('style','animation: shake 0.5s; animation-iteration-count: 1;');
+                    openCards[1].setAttribute('class','card match');
+                    openCards[1].setAttribute('style','animation: shake 0.5s; animation-iteration-count: 1;');
+                    openCards=[];
+                    cardsNotMatched = document.querySelectorAll('.card:not(.match)');//updates the list of not matched cards
+                    if(cardsNotMatched.length===0){//displays alert when all cards matched
+                      displayWinnerMessage();
+                    };
+                  } else {
+                    openCards[0].setAttribute('class','card');
+                    openCards[1].setAttribute('class','card');
+                    openCards=[];
+                  }
+              }, 900);
+
+              setTimeout(function(){
+                cardsToShuffle.forEach(function(item){
+                item.setAttribute('style','pointer-events:auto');
+                });
+              }, 1000);
+
           }
-      }
-
-    }, 1000);
 }
+
+// function unblock (){
+//     setTimeout(function(){
+//       cardsToShuffle.forEach(function(item){
+//       item.setAttribute('style','pointer-events:auto');
+//       }
+//     );
+//   },1100);
+// }
 
 // Displays modal when comleted
 function displayWinnerMessage (){
