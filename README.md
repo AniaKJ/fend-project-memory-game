@@ -1,20 +1,12 @@
 # Memory Game Project
 
-## Table of Contents
 
-* [Instructions](#instructions)
-* [Contributing](#contributing)
+## How to Play?
 
-## Instructions
+The objective of the game is to find matching pairs of cards.
+Click cards to open them. If you find two matching cards, they stay open. If they do not match, they will be hidden.
+You have 35 moves to complete the game.
+Time of your play is measured (since the moment you click first cards).
+If you manage to complete the game in 24 moves or less, your get three star 
 
-The starter project has some HTML and CSS styling to display a static version of the Memory Game project. You'll need to convert this project from a static project to an interactive one. This will require modifying the HTML and CSS files, but primarily the JavaScript file.
-
-To get started, open `js/app.js` and start building out the app's functionality
-
-For specific, detailed instructions, look at the project instructions in the [Udacity Classroom](https://classroom.udacity.com/me).
-
-## Contributing
-
-This repository is the starter code for _all_ Udacity students. Therefore, we most likely will not accept pull requests.
-
-For details, check out [CONTRIBUTING.md](CONTRIBUTING.md).
+## Features

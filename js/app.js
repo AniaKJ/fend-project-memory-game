@@ -116,6 +116,11 @@ function playAgain(){
   resetFunction();
   var modal=document.querySelector('.modal-success');
   modal.style.display='none';
+
+  document.querySelector('#final-time').removeChild(document.querySelector('#final-time').lastElementChild);
+  document.querySelector('#final-moves').removeChild(document.querySelector('#final-moves').lastElementChild);
+  document.querySelector('#final-score').removeChild(document.querySelector('#final-score').lastElementChild);
+
   var modal=document.querySelector('.modal-failure');
   modal.style.display='none';
   var modalOverlay =document.querySelector('.modal-overlay');
