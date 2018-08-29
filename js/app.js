@@ -5,28 +5,28 @@ var cardsToShuffle= Array.from(myCardsList);/*converts HTML list into an array*/
 // Shuffle function from http://stackoverflow.com/a/2450976
 
 function shuffle(array) {
-    var currentIndex = array.length, temporaryValue, randomIndex;
+  var currentIndex = array.length, temporaryValue, randomIndex;
 
-    while (currentIndex !== 0) {
-        randomIndex = Math.floor(Math.random() * currentIndex);
-        currentIndex -= 1;
-        temporaryValue = array[currentIndex];
-        array[currentIndex] = array[randomIndex];
-        array[randomIndex] = temporaryValue;
-    }
+  while (currentIndex !== 0) {
+    randomIndex = Math.floor(Math.random() * currentIndex);
+    currentIndex -= 1;
+    temporaryValue = array[currentIndex];
+    array[currentIndex] = array[randomIndex];
+    array[randomIndex] = temporaryValue;
+  }
 
-    return array;
+  return array;
 }
 
 //shuffles cards
 
 function shuffleDeck(){
-    let shuffledCards = shuffle(cardsToShuffle);/*creates an array of shuffled cards*/
-    for (let i=0;i<shuffledCards.length;i++){
-      let card = shuffledCards[i];
-      let deck = document.querySelector('.deck');
-      deck.appendChild(card);/*loops over the shuffled array and adds each card to the deck*/
-    }
+  let shuffledCards = shuffle(cardsToShuffle);/*creates an array of shuffled cards*/
+  for (let i=0;i<shuffledCards.length;i++){
+    let card = shuffledCards[i];
+    let deck = document.querySelector('.deck');
+    deck.appendChild(card);/*loops over the shuffled array and adds each card to the deck*/
+  }
 }
 
 shuffleDeck();/*this function will be run everytime page is loaded*/
@@ -47,53 +47,51 @@ let openCard;
 let openCards = [];
 
 for (let i=0;i<cardsNotMatched.length;i++){
-        let notMatchedCard = cardsNotMatched[i];
-        notMatchedCard.addEventListener ('click', function(){
-            notMatchedCard.setAttribute('style','pointer-events:none');//prevents from clicking the same card multiple times
-            notMatchedCard.setAttribute('class','card open show');
-            openCard = notMatchedCard;
-            openCards.push(openCard);
-            checkMatch();
-            }
-        )
- }
+  let notMatchedCard = cardsNotMatched[i];
+  notMatchedCard.addEventListener ('click', function(){
+    notMatchedCard.setAttribute('style','pointer-events:none');//prevents from clicking the same card multiple times
+    notMatchedCard.setAttribute('class','card open show');
+    openCard = notMatchedCard;
+    openCards.push(openCard);
+    checkMatch();
+  })
+}
 
 /* Function checking if two cards match, for true:
  * changed background of the card & updates the list of unmatched cards,
  * for false: closes the cards
  */
 function checkMatch(){
-          if (openCards.length===2){
+  if (openCards.length===2){
+    cardsToShuffle.forEach(function(item){
+      item.setAttribute('style','pointer-events:none');
+    });
 
-              cardsToShuffle.forEach(function(item){
-              item.setAttribute('style','pointer-events:none');
-              });
+  setTimeout(function(){
+    if(openCards[0].firstElementChild.className===openCards[1].firstElementChild.className){
+      openCards[0].setAttribute('class','card match');
+      openCards[0].setAttribute('style','animation: shake 0.5s; animation-iteration-count: 1;');
+      openCards[1].setAttribute('class','card match');
+      openCards[1].setAttribute('style','animation: shake 0.5s; animation-iteration-count: 1;');
+      openCards=[];
+      cardsNotMatched = document.querySelectorAll('.card:not(.match)');//updates the list of not matched cards
+      if(cardsNotMatched.length===0){//displays alert when all cards matched
+        displayWinnerMessage();
+      };
+    } else {
+      openCards[0].setAttribute('class','card');
+      openCards[1].setAttribute('class','card');
+      openCards=[];
+    }
+  }, 900);
 
-              setTimeout(function(){
-                  if(openCards[0].firstElementChild.className===openCards[1].firstElementChild.className){
-                    openCards[0].setAttribute('class','card match');
-                    openCards[0].setAttribute('style','animation: shake 0.5s; animation-iteration-count: 1;');
-                    openCards[1].setAttribute('class','card match');
-                    openCards[1].setAttribute('style','animation: shake 0.5s; animation-iteration-count: 1;');
-                    openCards=[];
-                    cardsNotMatched = document.querySelectorAll('.card:not(.match)');//updates the list of not matched cards
-                    if(cardsNotMatched.length===0){//displays alert when all cards matched
-                      displayWinnerMessage();
-                    };
-                  } else {
-                    openCards[0].setAttribute('class','card');
-                    openCards[1].setAttribute('class','card');
-                    openCards=[];
-                  }
-              }, 900);
+  setTimeout(function(){
+    cardsToShuffle.forEach(function(item){
+    item.setAttribute('style','pointer-events:auto');
+    });
+  }, 1000);
 
-              setTimeout(function(){
-                cardsToShuffle.forEach(function(item){
-                item.setAttribute('style','pointer-events:auto');
-                });
-              }, 1000);
-
-          }
+  }
 }
 
 // Displays modal when comleted
@@ -149,11 +147,11 @@ for (let i=0;i<cardsToShuffle.length;i++){
 
 //game over function
 function gameOverMessage(){
-    timerStop();
-    var modal=document.querySelector('.modal-failure');
-    modal.style.display='block';
-    var modalOverlay =document.querySelector('.modal-overlay');
-    modalOverlay.style.display='block';
+  timerStop();
+  var modal=document.querySelector('.modal-failure');
+  modal.style.display='block';
+  var modalOverlay =document.querySelector('.modal-overlay');
+  modalOverlay.style.display='block';
 }
 
 //Timer
@@ -202,9 +200,9 @@ addsStartTimerListener();//this will add event listeners (to start the timer) ev
 //removes the event listeners that start the timer from the cards
 function removesStartTimerListener (){
   for (let j=0;j<cardsToShuffle.length;j++){
-        let cardx = cardsToShuffle[j];
-        cardx.removeEventListener('click', startTimer);
-      }
+    let cardx = cardsToShuffle[j];
+    cardx.removeEventListener('click', startTimer);
+  }
 }
 
 //stops the timer
