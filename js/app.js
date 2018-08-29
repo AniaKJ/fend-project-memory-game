@@ -2,10 +2,6 @@
 let myCardsList = document.getElementsByClassName('card');/*returns HTLM list*/
 var cardsToShuffle= Array.from(myCardsList);/*converts HTML list into an array*/
 
-// for(i=0;i<16;i++){//clears the style (shaking) that was applied when cards where matched in previous games
-//   cardsToShuffle[i].setAttribute('style','animation: none; animation-iteration-count: 0;');
-// }
-
 // Shuffle function from http://stackoverflow.com/a/2450976
 
 function shuffle(array) {
@@ -58,7 +54,6 @@ for (let i=0;i<cardsNotMatched.length;i++){
             openCard = notMatchedCard;
             openCards.push(openCard);
             checkMatch();
-            // unblock();
             }
         )
  }
@@ -101,15 +96,6 @@ function checkMatch(){
           }
 }
 
-// function unblock (){
-//     setTimeout(function(){
-//       cardsToShuffle.forEach(function(item){
-//       item.setAttribute('style','pointer-events:auto');
-//       }
-//     );
-//   },1100);
-// }
-
 // Displays modal when comleted
 function displayWinnerMessage (){
   timerStop();
@@ -150,14 +136,12 @@ for (let i=0;i<cardsToShuffle.length;i++){
     clickCounter=clickCounter+1;
     document.querySelector('.moves').textContent=clickCounter;//updates number of moves on the screen
 
-    if (clickCounter===8||clickCounter===16){//removes stars from the rating when 8 moves and 16 moves made
-      // starsNow = document.querySelector('.stars');
-      // starsParent=starsNow.parentNode;
+    if (clickCounter===24||clickCounter===32){//removes stars from the rating when 8 moves and 16 moves made
       let star=stars.firstElementChild;
       stars.removeChild(star);
     };
 
-    if (clickCounter===35){//game is over if 35 moves reached
+    if (clickCounter===45){//game is over if 35 moves reached
       gameOverMessage();
     };
   })
