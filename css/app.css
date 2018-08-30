@@ -18,7 +18,7 @@ body {
 
 body {
     background: url('../img/sea.jpg') no-repeat center center fixed;
-    background-size: auto 100%;
+    background-size: auto auto;
 }
 
 .container {
