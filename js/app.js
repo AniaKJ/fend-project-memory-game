@@ -108,11 +108,11 @@ function displayWinnerMessage (){
 }
 
 //Play again button on modal
-document.querySelector('.play-again1').addEventListener('click',playAgain);
-document.querySelector('.play-again2').addEventListener('click',playAgain);
+document.querySelector('.play-again1').addEventListener('click',playAgainAfterSuccess);
+document.querySelector('.play-again2').addEventListener('click',playAgainAfterFailure);
 
-//Starts new game when 'play again button clicked'
-function playAgain(){
+//Starts new game when 'play again button clicked' after success
+function playAgainAfterSuccess(){
   resetFunction();
   var modal=document.querySelector('.modal-success');
   modal.style.display='none';
@@ -121,6 +121,14 @@ function playAgain(){
   document.querySelector('#final-moves').removeChild(document.querySelector('#final-moves').lastElementChild);
   document.querySelector('#final-score').removeChild(document.querySelector('#final-score').lastElementChild);
 
+  var modalOverlay =document.querySelector('.modal-overlay');
+  modalOverlay.style.display='none';
+}
+
+//Starts new game when 'play again button clicked' after failue
+
+function playAgainAfterFailure(){
+  resetFunction();
   var modal=document.querySelector('.modal-failure');
   modal.style.display='none';
   var modalOverlay =document.querySelector('.modal-overlay');
